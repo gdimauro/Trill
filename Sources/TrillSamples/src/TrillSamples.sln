@@ -1,76 +1,52 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36603.0
+VisualStudioVersion = 17.14.36603.0 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{FC3F88DF-019E-4351-9FD5-E71CFE299220}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "HelloWorld\HelloWorld.csproj", "{1B1C6FD5-86E3-4E35-A3C6-3E8968ECB9BD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.StreamProcessing", "Core\Microsoft.StreamProcessing\Microsoft.StreamProcessing.csproj", "{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloToll", "HelloToll\HelloToll.csproj", "{ACC12A8F-A608-4DA5-96A1-C05884E2C709}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC9C5E98-3DA8-4382-9B97-09EC03F881E5}"
-	ProjectSection(SolutionItems) = preProject
-		.editorconfig = .editorconfig
-		Directory.Build.props = Directory.Build.props
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionExamples", "FunctionExamples\FunctionExamples.csproj", "{F47BADB0-9E9A-4C82-BCA2-D9E7EB53E2A5}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{42433653-79B2-4044-9EF5-4C9E9A9FA3FC}"
-	ProjectSection(SolutionItems) = preProject
-		Test\app.config = Test\app.config
-		Test\Directory.Build.props = Test\Directory.Build.props
-	EndProjectSection
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerformanceTest", "PerformanceTest\PerformanceTest.csproj", "{F8E19F12-DB1F-44E8-8689-6473496834F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleTesting", "Test\SimpleTesting\SimpleTesting.csproj", "{F88FBCF8-C33B-4089-8998-19E9CF901B99}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggregateExample", "AggregateExample\AggregateExample.csproj", "{97DA3C8F-D508-4F74-ACFC-67B2C19B9FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerformanceTesting", "Test\TrillPerf\PerformanceTesting.csproj", "{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeExample", "RealTimeExample\RealTimeExample.csproj", "{F9D6C7A7-BC24-44F3-9C6A-798C3E6A84C3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.StreamProcessing.Provider", "Core\Microsoft.StreamProcessing.Provider\Microsoft.StreamProcessing.Provider.csproj", "{E225184C-B9AE-4F22-9A03-96C5346E3DCF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckpointExample", "CheckpointExample\CheckpointExample.csproj", "{D1A8F0CE-7EA7-45F9-A214-AC4E93DE7D78}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternExamples", "PatternExamples\PatternExamples.csproj", "{F077B028-5252-4C6D-B7F7-DC6711C320AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloWorld", "TrillSamples\src\HelloWorld\HelloWorld.csproj", "{1B1C6FD5-86E3-4E35-A3C6-3E8968ECB9BD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatelessExamples", "StatelessExamples\StatelessExamples.csproj", "{59935E3A-771C-479A-BB84-F497C8A9F302}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelloToll", "TrillSamples\src\HelloToll\HelloToll.csproj", "{ACC12A8F-A608-4DA5-96A1-C05884E2C709}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JoinExamples", "JoinExamples\JoinExamples.csproj", "{A4EA6952-CE16-40CC-A733-6AB066E9E893}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FunctionExamples", "TrillSamples\src\FunctionExamples\FunctionExamples.csproj", "{F47BADB0-9E9A-4C82-BCA2-D9E7EB53E2A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemporalExamples", "TemporalExamples\TemporalExamples.csproj", "{0FEB14E5-CE81-4DE1-9DCD-48F677E3CF93}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PerformanceTest", "TrillSamples\src\PerformanceTest\PerformanceTest.csproj", "{F8E19F12-DB1F-44E8-8689-6473496834F3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AggregateExample", "TrillSamples\src\AggregateExample\AggregateExample.csproj", "{97DA3C8F-D508-4F74-ACFC-67B2C19B9FFF}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeExample", "TrillSamples\src\RealTimeExample\RealTimeExample.csproj", "{F9D6C7A7-BC24-44F3-9C6A-798C3E6A84C3}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CheckpointExample", "TrillSamples\src\CheckpointExample\CheckpointExample.csproj", "{D1A8F0CE-7EA7-45F9-A214-AC4E93DE7D78}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatternExamples", "TrillSamples\src\PatternExamples\PatternExamples.csproj", "{F077B028-5252-4C6D-B7F7-DC6711C320AB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StatelessExamples", "TrillSamples\src\StatelessExamples\StatelessExamples.csproj", "{59935E3A-771C-479A-BB84-F497C8A9F302}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JoinExamples", "TrillSamples\src\JoinExamples\JoinExamples.csproj", "{A4EA6952-CE16-40CC-A733-6AB066E9E893}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TemporalExamples", "TrillSamples\src\TemporalExamples\TemporalExamples.csproj", "{0FEB14E5-CE81-4DE1-9DCD-48F677E3CF93}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngressEgressExamples", "TrillSamples\src\IngressEgressExamples\IngressEgressExamples.csproj", "{176766EC-1E81-49DC-84ED-46B81AA86B19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IngressEgressExamples", "IngressEgressExamples\IngressEgressExamples.csproj", "{176766EC-1E81-49DC-84ED-46B81AA86B19}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReliableEventHubs", "ReliableEventHubs", "{87014F67-F6AE-4AA6-89F2-27E0469A31B0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinarySerializer", "TrillSamples\src\BinarySerializer\BinarySerializer.csproj", "{526AC0AF-4079-4581-ADCA-36913FDEBC68}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BinarySerializer", "BinarySerializer\BinarySerializer.csproj", "{526AC0AF-4079-4581-ADCA-36913FDEBC68}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHubSender", "TrillSamples\src\EventHubSender\EventHubSender.csproj", "{1F0E35C8-03CA-4B23-92A8-57572AD919C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHubSender", "EventHubSender\EventHubSender.csproj", "{1F0E35C8-03CA-4B23-92A8-57572AD919C4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHubReceiver", "TrillSamples\src\EventHubReceiver\EventHubReceiver.csproj", "{C580BAC3-23A0-42B0-804B-E882AAF55BDE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHubReceiver", "EventHubReceiver\EventHubReceiver.csproj", "{C580BAC3-23A0-42B0-804B-E882AAF55BDE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RulesEngine", "TrillSamples\src\RulesEngine\RulesEngine.csproj", "{F20C5E59-8345-4158-8D2C-5509182D1E21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RulesEngine", "RulesEngine\RulesEngine.csproj", "{F20C5E59-8345-4158-8D2C-5509182D1E21}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryWritingGuide", "TrillSamples\src\QueryWritingGuide\QueryWritingGuide.csproj", "{C4A9AC70-6189-445D-BBFA-64AB1958C8C6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.StreamProcessing", "Sources\Core\Microsoft.StreamProcessing\Microsoft.StreamProcessing.csproj", "{A41803BD-436A-F8F5-6947-DD6C08E2E903}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples Solution Items", "Samples Solution Items", "{83439F69-2326-4D5C-9E0D-6E5BD16E4BDD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{94C9D403-DBC5-490F-83AC-12C8B9157B7A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
 		TrillSamples.ruleset = TrillSamples.ruleset
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryWritingGuide", "QueryWritingGuide\QueryWritingGuide.csproj", "{C4A9AC70-6189-445D-BBFA-64AB1958C8C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.StreamProcessing", "..\..\Sources\Core\Microsoft.StreamProcessing\Microsoft.StreamProcessing.csproj", "{A41803BD-436A-F8F5-6947-DD6C08E2E903}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -80,38 +56,6 @@ Global
 		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Debug|x64.ActiveCfg = Debug|x64
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Debug|x64.Build.0 = Debug|x64
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Release|x64.ActiveCfg = Release|x64
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9}.Release|x64.Build.0 = Release|x64
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Debug|x64.Build.0 = Debug|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Release|x64.ActiveCfg = Release|Any CPU
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99}.Release|x64.Build.0 = Release|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Debug|x64.Build.0 = Debug|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Release|x64.ActiveCfg = Release|Any CPU
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB}.Release|x64.Build.0 = Release|Any CPU
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Debug|x64.ActiveCfg = Debug|x64
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Debug|x64.Build.0 = Debug|x64
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Release|x64.ActiveCfg = Release|x64
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF}.Release|x64.Build.0 = Release|x64
 		{1B1C6FD5-86E3-4E35-A3C6-3E8968ECB9BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1B1C6FD5-86E3-4E35-A3C6-3E8968ECB9BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B1C6FD5-86E3-4E35-A3C6-3E8968ECB9BD}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -261,30 +205,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{3A2EB89B-70C7-4516-BB40-13248D5D2AB9} = {FC3F88DF-019E-4351-9FD5-E71CFE299220}
-		{F88FBCF8-C33B-4089-8998-19E9CF901B99} = {42433653-79B2-4044-9EF5-4C9E9A9FA3FC}
-		{5DD350C9-C6A8-4EBF-A192-BAEFD26013FB} = {42433653-79B2-4044-9EF5-4C9E9A9FA3FC}
-		{E225184C-B9AE-4F22-9A03-96C5346E3DCF} = {FC3F88DF-019E-4351-9FD5-E71CFE299220}
-		{1B1C6FD5-86E3-4E35-A3C6-3E8968ECB9BD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{ACC12A8F-A608-4DA5-96A1-C05884E2C709} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F47BADB0-9E9A-4C82-BCA2-D9E7EB53E2A5} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F8E19F12-DB1F-44E8-8689-6473496834F3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{97DA3C8F-D508-4F74-ACFC-67B2C19B9FFF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F9D6C7A7-BC24-44F3-9C6A-798C3E6A84C3} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{D1A8F0CE-7EA7-45F9-A214-AC4E93DE7D78} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{F077B028-5252-4C6D-B7F7-DC6711C320AB} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{59935E3A-771C-479A-BB84-F497C8A9F302} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{A4EA6952-CE16-40CC-A733-6AB066E9E893} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{0FEB14E5-CE81-4DE1-9DCD-48F677E3CF93} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{176766EC-1E81-49DC-84ED-46B81AA86B19} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{87014F67-F6AE-4AA6-89F2-27E0469A31B0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{526AC0AF-4079-4581-ADCA-36913FDEBC68} = {87014F67-F6AE-4AA6-89F2-27E0469A31B0}
 		{1F0E35C8-03CA-4B23-92A8-57572AD919C4} = {87014F67-F6AE-4AA6-89F2-27E0469A31B0}
 		{C580BAC3-23A0-42B0-804B-E882AAF55BDE} = {87014F67-F6AE-4AA6-89F2-27E0469A31B0}
-		{F20C5E59-8345-4158-8D2C-5509182D1E21} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{C4A9AC70-6189-445D-BBFA-64AB1958C8C6} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{A41803BD-436A-F8F5-6947-DD6C08E2E903} = {94C9D403-DBC5-490F-83AC-12C8B9157B7A}
-		{83439F69-2326-4D5C-9E0D-6E5BD16E4BDD} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {529E43AF-C26A-4A3A-BF6F-9C267775E28F}

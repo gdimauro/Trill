@@ -1,0 +1,25 @@
+<Project>
+
+  <!-- Code Analysis -->
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(MSBuildThisFileDirectory)\TrillSamples.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <!-- Use the latest C# version -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  
+  <!-- Every sample includes Trill -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\Microsoft.StreamProcessing\Microsoft.StreamProcessing.csproj" />
+  </ItemGroup>
+
+</Project>
