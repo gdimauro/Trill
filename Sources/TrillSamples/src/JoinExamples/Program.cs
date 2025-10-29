@@ -65,14 +65,14 @@ namespace JoinExamples
     private static void CrossJoinExample()
     {
       var input1 = dynamics1.ToObservable().ToStreamable();
-      for (var i = 11; i < 200000; i += 1)
+      for (var i = 11; i < 2_000_000; i += 1)
         dynamics1.Add(StreamEvent.CreateInterval(i, i + 10, CreatePayload(i % 4 + 1, i)));
       dynamics1.Add(StreamEvent.CreatePunctuation<DynamicPayload>(StreamEvent.InfinitySyncTime));
       // Console.WriteLine("Input1 =");
       // input1.ToStreamEventObservable().ForEachAsync(e => Console.WriteLine(e)).Wait();
 
       var input2 = dynamics2.ToObservable().ToStreamable();
-      for (var i = 10; i < 200000; i += 2)
+      for (var i = 10; i < 2_000_000; i += 1)
         dynamics2.Add(StreamEvent.CreateInterval(i, i + 10, CreatePayload(i % 4 + 1, i)));
       dynamics2.Add(StreamEvent.CreatePunctuation<DynamicPayload>(StreamEvent.InfinitySyncTime));
       // Console.WriteLine("Input2 =");
@@ -87,7 +87,11 @@ namespace JoinExamples
 
       Console.WriteLine();
       Console.WriteLine("Output =");
-      output.ToStreamEventObservable().ForEachAsync(e => Console.WriteLine(e)).Wait();
+      List<object> v = new List<object>();
+      int j = 0;
+      output.ToStreamEventObservable().ForEachAsync(e => j++).Wait();
+      // Console.WriteLine($"Output count: {v.Count}");
+      Console.WriteLine($"Output count: {j}");
     }
 
     [DisplayName("EquiJoinExample")]

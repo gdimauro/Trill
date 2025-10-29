@@ -23,7 +23,7 @@ namespace EventHubReceiver
     public sealed class EventProcessor : IEventProcessor
     {
         private static readonly TimeSpan CheckpointInterval = TimeSpan.FromSeconds(10);
-        private static readonly string StorageConnectionString = Program.StorageConnectionString;
+        private static readonly string StorageConnectionString = AzureEventHubReceiver.StorageConnectionString;
 
         private Stopwatch checkpointStopWatch;
         private CloudBlobContainer checkpointContainer;

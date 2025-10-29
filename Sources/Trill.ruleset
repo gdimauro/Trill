@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="Trill Mandatory Documentation Rules" Description="Enforces mandatory XML documentation comments on all public and internal members" ToolsVersion="16.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    
+    <!-- Documentation Rules - ALL ERRORS -->
+    
+    <!-- SA1600: Elements should be documented -->
+    <Rule Id="SA1600" Action="Error" />
+    
+    <!-- SA1601: Partial elements should be documented -->
+    <Rule Id="SA1601" Action="Error" />
+    
+    <!-- SA1602: Enumeration items should be documented -->
+    <Rule Id="SA1602" Action="Error" />
+    
+    <!-- SA1603: Documentation should contain valid XML -->
+    <Rule Id="SA1603" Action="Error" />
+    
+    <!-- SA1604: Element documentation should have summary -->
+    <Rule Id="SA1604" Action="Error" />
+    
+    <!-- SA1605: Partial element documentation should have summary -->
+    <Rule Id="SA1605" Action="Error" />
+    
+    <!-- SA1606: Element documentation should have summary text -->
+    <Rule Id="SA1606" Action="Error" />
+    
+    <!-- SA1607: Partial element documentation should have summary text -->
+    <Rule Id="SA1607" Action="Error" />
+    
+    <!-- SA1608: Element documentation should not have default summary -->
+    <Rule Id="SA1608" Action="Error" />
+    
+    <!-- SA1609: Property documentation should have value -->
+    <Rule Id="SA1609" Action="Warning" />
+    
+    <!-- SA1610: Property documentation should have value text -->
+    <Rule Id="SA1610" Action="Warning" />
+    
+    <!-- SA1611: Element parameters should be documented -->
+    <Rule Id="SA1611" Action="Error" />
+    
+    <!-- SA1612: Element parameter documentation should match element parameters -->
+    <Rule Id="SA1612" Action="Error" />
+    
+    <!-- SA1613: Element parameter documentation should declare parameter name -->
+    <Rule Id="SA1613" Action="Error" />
+    
+    <!-- SA1614: Element parameter documentation should have text -->
+    <Rule Id="SA1614" Action="Error" />
+    
+    <!-- SA1615: Element return value should be documented -->
+    <Rule Id="SA1615" Action="Error" />
+    
+    <!-- SA1616: Element return value documentation should have text -->
+    <Rule Id="SA1616" Action="Error" />
+    
+    <!-- SA1617: Void return value should not be documented -->
+    <Rule Id="SA1617" Action="Error" />
+    
+    <!-- SA1618: Generic type parameters should be documented -->
+    <Rule Id="SA1618" Action="Error" />
+    
+    <!-- SA1619: Generic type parameters should be documented partial class -->
+    <Rule Id="SA1619" Action="Error" />
+    
+    <!-- SA1620: Generic type parameter documentation should match type parameters -->
+    <Rule Id="SA1620" Action="Error" />
+    
+    <!-- SA1621: Generic type parameter documentation should declare parameter name -->
+    <Rule Id="SA1621" Action="Error" />
+    
+    <!-- SA1622: Generic type parameter documentation should have text -->
+    <Rule Id="SA1622" Action="Error" />
+    
+    <!-- SA1623: Property summary documentation should begin with standard text -->
+    <Rule Id="SA1623" Action="Warning" />
+    
+    <!-- SA1624: Property summary documentation should omit accessor with restricted access -->
+    <Rule Id="SA1624" Action="Warning" />
+    
+    <!-- SA1625: Element documentation should not be copied and pasted -->
+    <Rule Id="SA1625" Action="Warning" />
+    
+    <!-- SA1626: Single-line comments should not use documentation style slashes -->
+    <Rule Id="SA1626" Action="Warning" />
+    
+    <!-- SA1627: Documentation text should not be empty -->
+    <Rule Id="SA1627" Action="Error" />
+    
+    <!-- SA1628: Documentation text should begin with a capital letter -->
+    <Rule Id="SA1628" Action="Warning" />
+    
+    <!-- SA1629: Documentation text should end with a period -->
+    <Rule Id="SA1629" Action="Warning" />
+    
+    <!-- SA1630: Documentation text should contain whitespace -->
+    <Rule Id="SA1630" Action="Warning" />
+    
+    <!-- SA1631: Documentation should meet character percentage -->
+    <Rule Id="SA1631" Action="Hidden" />
+    
+    <!-- SA1632: Documentation text should meet minimum character length -->
+    <Rule Id="SA1632" Action="Hidden" />
+    
+    <!-- SA1633: File should have header -->
+    <Rule Id="SA1633" Action="None" />
+    
+    <!-- SA1634: File header should show copyright -->
+    <Rule Id="SA1634" Action="None" />
+    
+    <!-- SA1635: File header should have copyright text -->
+    <Rule Id="SA1635" Action="None" />
+    
+    <!-- SA1636: File header copyright text should match -->
+    <Rule Id="SA1636" Action="None" />
+    
+    <!-- SA1637: File header should contain file name -->
+    <Rule Id="SA1637" Action="None" />
+    
+    <!-- SA1638: File header file name documentation should match file name -->
+    <Rule Id="SA1638" Action="None" />
+    
+    <!-- SA1639: File header should have summary -->
+    <Rule Id="SA1639" Action="None" />
+    
+    <!-- SA1640: File header should have valid company text -->
+    <Rule Id="SA1640" Action="None" />
+    
+    <!-- SA1641: File header company name text should match -->
+    <Rule Id="SA1641" Action="None" />
+    
+    <!-- SA1642: Constructor summary documentation should begin with standard text -->
+    <Rule Id="SA1642" Action="Warning" />
+    
+    <!-- SA1643: Destructor summary documentation should begin with standard text -->
+    <Rule Id="SA1643" Action="Warning" />
+    
+    <!-- SA1644: Documentation headers should not contain blank lines -->
+    <Rule Id="SA1644" Action="Warning" />
+    
+    <!-- SA1645: Included documentation file does not exist -->
+    <Rule Id="SA1645" Action="Warning" />
+    
+    <!-- SA1646: Included documentation XPath does not exist -->
+    <Rule Id="SA1646" Action="Warning" />
+    
+    <!-- SA1647: Include node does not contain valid file and path -->
+    <Rule Id="SA1647" Action="Warning" />
+    
+    <!-- SA1648: Inheritdoc should be used with inheriting class -->
+    <Rule Id="SA1648" Action="Warning" />
+    
+    <!-- SA1649: File name should match type name -->
+    <Rule Id="SA1649" Action="Warning" />
+    
+    <!-- SA1650: Element documentation should be spelled correctly -->
+    <Rule Id="SA1650" Action="None" />
+    
+    <!-- SA1651: Do not use placeholder elements -->
+    <Rule Id="SA1651" Action="Warning" />
+    
+  </Rules>
+  
+  <!-- C# Compiler Warnings for Documentation -->
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
+    
+    <!-- CS1591: Missing XML comment for publicly visible type or member -->
+    <Rule Id="CS1591" Action="Error" />
+    
+    <!-- CS1572: XML comment has a param tag, but there is no parameter by that name -->
+    <Rule Id="CS1572" Action="Error" />
+    
+    <!-- CS1573: Parameter has no matching param tag in the XML comment -->
+    <Rule Id="CS1573" Action="Error" />
+    
+    <!-- CS1574: XML comment has cref attribute that could not be resolved -->
+    <Rule Id="CS1574" Action="Warning" />
+    
+    <!-- CS1580: Invalid type for parameter in XML comment cref attribute -->
+    <Rule Id="CS1580" Action="Error" />
+    
+    <!-- CS1581: Invalid return type in XML comment cref attribute -->
+    <Rule Id="CS1581" Action="Error" />
+    
+    <!-- CS1584: XML comment has syntactically incorrect cref attribute -->
+    <Rule Id="CS1584" Action="Error" />
+    
+    <!-- CS1587: XML comment is not placed on a valid language element -->
+    <Rule Id="CS1587" Action="Error" />
+    
+    <!-- CS1589: Unable to include XML fragment -->
+    <Rule Id="CS1589" Action="Warning" />
+    
+    <!-- CS1590: Invalid XML include element -->
+    <Rule Id="CS1590" Action="Warning" />
+    
+    <!-- CS1592: Badly formed XML in included comments file -->
+    <Rule Id="CS1592" Action="Warning" />
+    
+    <!-- CS1658: Warning is overriding an error -->
+    <Rule Id="CS1658" Action="Error" />
+    
+    <!-- CS1710: XML comment has a duplicate typeparam tag -->
+    <Rule Id="CS1710" Action="Error" />
+    
+    <!-- CS1711: XML comment has a typeparam tag, but there is no type parameter by that name -->
+    <Rule Id="CS1711" Action="Error" />
+    
+    <!-- CS1712: Type parameter has no matching typeparam tag in the XML comment -->
+    <Rule Id="CS1712" Action="Error" />
+    
+    <!-- CS1723: XML comment has cref attribute that refers to a type parameter -->
+    <Rule Id="CS1723" Action="Warning" />
+    
+  </Rules>
+  
+  <!-- Additional Code Quality Rules -->
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    
+    <!-- CA1812: Avoid uninstantiated internal classes -->
+    <Rule Id="CA1812" Action="Warning" />
+    
+  </Rules>
+</RuleSet>

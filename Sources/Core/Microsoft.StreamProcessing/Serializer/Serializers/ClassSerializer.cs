@@ -77,11 +77,44 @@ namespace Microsoft.StreamProcessing.Serializer.Serializers
                 if (this.RuntimeType.HasSupportedParameterizedConstructor())
                 {
                     // Cannot create an object beforehand. Have to call a constructor with parameters.
-                    var properties = this.fields.Select(f => f.Schema.BuildDeserializer(decoderParam));
+                    var properties = this.fields.Select(f => f.Schema.BuildDeserializer(decoderParam)).ToList();
+                    var fieldTypes = this.fields.Select(f => f.Schema.RuntimeType).ToList();
+                    
+                    // Find a constructor that matches the available (non-object) fields
                     var ctor = this.RuntimeType.GetTypeInfo()
                         .GetConstructors()
-                        .Single(c => c.GetParameters().Select(p => p.ParameterType).SequenceEqual(this.fields.Select(f => f.Schema.RuntimeType)));
-                    body.Add(Expression.Assign(instance, Expression.New(ctor, properties)));
+                        .FirstOrDefault(c => c.GetParameters().Select(p => p.ParameterType).SequenceEqual(fieldTypes));
+                    
+                    if (ctor == null)
+                    {
+                        // If no exact match found, this type likely has fields/properties of type System.Object which were filtered out.
+                        // For structs, we can use the default value. For classes, try to find a parameterless constructor.
+                        if (this.RuntimeType.GetTypeInfo().IsValueType)
+                        {
+                            // For value types (structs), we can use default(T) and then set the available properties
+                            body.Add(Expression.Assign(instance, Expression.Default(this.RuntimeType)));
+                            body.AddRange(this.fields.Select(f => f.BuildDeserializer(decoderParam, instance)));
+                        }
+                        else
+                        {
+                            // For reference types (classes), try to find a default constructor
+                            ctor = this.RuntimeType.GetTypeInfo().GetConstructor(Type.EmptyTypes);
+                            if (ctor == null)
+                            {
+                                throw new SerializationException(
+                                    $"Type '{this.RuntimeType}' requires a parameterized constructor but no matching constructor found for the serializable fields. " +
+                                    $"Expected constructor with parameters: [{string.Join(", ", fieldTypes.Select(t => t.Name))}]. " +
+                                    $"This may occur if the type has fields/properties of type 'System.Object' which cannot be serialized.");
+                            }
+                            // Use default constructor and set properties
+                            body.Add(Expression.Assign(instance, Expression.New(ctor)));
+                            body.AddRange(this.fields.Select(f => f.BuildDeserializer(decoderParam, instance)));
+                        }
+                    }
+                    else
+                    {
+                        body.Add(Expression.Assign(instance, Expression.New(ctor, properties)));
+                    }
                 }
                 else
                 {

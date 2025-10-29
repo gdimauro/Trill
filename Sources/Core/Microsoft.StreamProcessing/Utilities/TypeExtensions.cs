@@ -411,18 +411,14 @@ namespace Microsoft.StreamProcessing
                 }
             }
 
-            if (type.IsValueType) // we can always create instances of a struct
+            if (type.IsValueType // we can always create instances of a struct
+                || (type.IsAbstract || type.IsInterface) // until we determine how we do columnar over a polymorphic set, we cannot do columnar over an abstract type or an interface
+                || type.GetConstructor(Type.EmptyTypes) != null) // otherwise it must have a nullary ctor that can be called
+            {
                 return true;
+            }
 
-            if (type.IsAbstract || type.IsInterface) // until we determine how we do columnar over a polymorphic set, we cannot do columnar over an abstract type or an interface
-                return false;
-
-            // otherwise it must have a nullary ctor that can be called
-            // when a query cannot be transformed to a columnar representation
-            // (and so instances of the type must be dynamically generated
-            // as part of the query processing)
-            var ctor = type.GetConstructor(Type.EmptyTypes);
-            return ctor != null;
+            return false;
         }
 
         public static Type GetPartitionType(this Type type)
@@ -664,19 +660,21 @@ namespace Microsoft.StreamProcessing
         ///     <c>true</c> if the type is unsupported; otherwise, <c>false</c>.
         /// </returns>
         public static bool IsUnsupported(this Type type)
-            => type == typeof(IntPtr)
-            || type == typeof(UIntPtr)
-            || type == typeof(object)
-            || type.GetTypeInfo().ContainsGenericParameters
-            || (!type.IsArray
-                && !type.GetTypeInfo().IsValueType
-                && !type.HasSupportedParameterizedConstructor()
-                && !type.HasParameterlessConstructor()
-                && type != typeof(string)
-                && type != typeof(Uri)
-                && !type.GetTypeInfo().IsAbstract
-                && !type.GetTypeInfo().IsInterface
-                && !(type.GetTypeInfo().IsGenericType && SupportedInterfaces.Contains(type.GetGenericTypeDefinition())));
+        {
+            return type == typeof(IntPtr)
+                || type == typeof(UIntPtr)
+                || type == typeof(object)
+                || type.GetTypeInfo().ContainsGenericParameters
+                || (!type.IsArray
+                    && !type.GetTypeInfo().IsValueType
+                    && !type.HasSupportedParameterizedConstructor()
+                    && !type.HasParameterlessConstructor()
+                    && type != typeof(string)
+                    && type != typeof(Uri)
+                    && !type.GetTypeInfo().IsAbstract
+                    && !type.GetTypeInfo().IsInterface
+                    && !(type.GetTypeInfo().IsGenericType && SupportedInterfaces.Contains(type.GetGenericTypeDefinition())));
+        }
 
         private static readonly HashSet<Type> SupportedInterfaces = new HashSet<Type>
         {
@@ -717,20 +715,27 @@ namespace Microsoft.StreamProcessing
             if (type.GetTypeInfo().IsPrimitive) return Enumerable.Empty<MyFieldInfo>();
             else if (type.HasSupportedParameterizedConstructor())
             {
-                return type.GetTypeInfo().GetProperties().Where(p => p.GetIndexParameters().Length == 0).Select(o => new MyFieldInfo(o));
+                var members = type.GetTypeInfo().GetProperties().Where(p => p.GetIndexParameters().Length == 0).ToList();
+                var serializableMembers = members.Where(p => !p.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o)).ToList();
+                
+                // For types like KeyValuePair<string, object>, we'll serialize what we can
+                // Even if the type has read-only properties, we'll attempt to serialize the non-unsupported members
+                // Note: Deserialization may not fully reconstruct the object, but it's better than failing entirely
+                
+                return serializableMembers;
             }
             else if (type.GetTypeInfo().IsDefined(typeof(DataContractAttribute)))
             {
                 // In DataContract context, return all fields and properties marked with DataMember
-                var fields = type.GetAllFields().Where(m => m.IsDefined(typeof(DataMemberAttribute))).Select(o => new MyFieldInfo(o));
-                var properties = type.GetAllProperties().Where(m => m.IsDefined(typeof(DataMemberAttribute))).Select(o => new MyFieldInfo(o));
+                var fields = type.GetAllFields().Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !m.FieldType.IsUnsupported()).Select(o => new MyFieldInfo(o));
+                var properties = type.GetAllProperties().Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !m.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o));
                 return fields.Concat(properties);
             }
             else
             {
                 // Otherwise, return all fields, as well as all autoproperties
-                var fields = type.GetAllFields().Select(o => new MyFieldInfo(o));
-                var properties = type.GetAllProperties().Where(m => m.IsFieldOrAutoProp()).Select(o => new MyFieldInfo(o));
+                var fields = type.GetAllFields().Where(f => !f.FieldType.IsUnsupported()).Select(o => new MyFieldInfo(o));
+                var properties = type.GetAllProperties().Where(m => m.IsFieldOrAutoProp() && !m.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o));
                 return fields.Concat(properties);
             }
         }

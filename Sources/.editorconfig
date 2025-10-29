@@ -51,3 +51,38 @@ csharp_new_line_before_finally = true
 csharp_indent_case_contents = true
 csharp_indent_switch_labels = true
 csharp_preserve_single_line_statements = false
+
+# StyleCop Documentation Rules
+
+# SA1600: Elements should be documented
+dotnet_diagnostic.SA1600.severity = error
+
+# SA1601: Partial elements should be documented
+dotnet_diagnostic.SA1601.severity = error
+
+# SA1602: Enumeration items should be documented
+dotnet_diagnostic.SA1602.severity = error
+
+# SA1611: Element parameters should be documented
+dotnet_diagnostic.SA1611.severity = error
+
+# SA1615: Element return value should be documented
+dotnet_diagnostic.SA1615.severity = error
+
+# SA1616: Element return value documentation should have text
+dotnet_diagnostic.SA1616.severity = error
+
+# SA1618: Generic type parameters should be documented
+dotnet_diagnostic.SA1618.severity = error
+
+# SA1627: Documentation text should not be empty
+dotnet_diagnostic.SA1627.severity = error
+
+# CS1591: Missing XML comment for publicly visible type or member
+dotnet_diagnostic.CS1591.severity = error
+
+# CS1573: Parameter has no matching param tag in the XML comment
+dotnet_diagnostic.CS1573.severity = error
+
+# CS1712: Type parameter has no matching typeparam tag in the XML comment
+dotnet_diagnostic.CS1712.severity = error
