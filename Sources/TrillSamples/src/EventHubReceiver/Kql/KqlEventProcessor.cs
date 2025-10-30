@@ -236,7 +236,7 @@ namespace EventHubReceiver.Kql
         /// </summary>
         private void CreateQuery()
         {
-            queryContainer = new QueryContainer(new Microsoft.StreamProcessing.Serializer.ObjectDictionarySurrogate());
+            queryContainer = new QueryContainer(new KqlSurrogate());
             input = new Subject<StreamEvent<KqlDynamicRecord>>();
 
             var inputStream = queryContainer.RegisterInput(
