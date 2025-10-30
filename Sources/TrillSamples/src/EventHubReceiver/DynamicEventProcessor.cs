@@ -121,6 +121,7 @@ namespace EventHubReceiver
   /// </summary>
   public struct AggregationResult
   {
+    // Current window statistics
     public ulong Count { get; set; }
     public long Sum { get; set; }
     public double Average { get; set; }
@@ -128,6 +129,17 @@ namespace EventHubReceiver
     public long Max { get; set; }
     public long EventCounter { get; set; }
     public string AggregationType { get; set; }
+
+    // Historical/cumulative statistics
+    public ulong TotalEventsProcessed { get; set; }
+    public long CumulativeSum { get; set; }
+    public double CumulativeAverage { get; set; }
+    public long HistoricalMin { get; set; }
+    public long HistoricalMax { get; set; }
+    public ulong WindowNumber { get; set; }
+    public double EventsPerSecond { get; set; }
+    public long Range { get; set; } // Max - Min
+    public double StandardDeviation { get; set; }
   }
 
   /// <summary>
@@ -451,7 +463,16 @@ namespace EventHubReceiver
     {
       private readonly string partitionId;
       private readonly DynamicAggregationConfig config;
-      private int outputCount = 0;
+      private ulong outputCount = 0;
+
+      // Historical tracking
+      private ulong totalEventsProcessed = 0;
+      private long cumulativeSum = 0;
+      private long historicalMin = long.MaxValue;
+      private long historicalMax = long.MinValue;
+      private long lastWindowEndTime = 0;
+      private double runningMeanForStdDev = 0;
+      private double runningM2ForStdDev = 0; // For Welford's online algorithm
 
       public DynamicQueryObserver(string partitionId, DynamicAggregationConfig config)
       {
@@ -475,31 +496,82 @@ namespace EventHubReceiver
           this.outputCount++;
           var result = value.Payload;
 
+          // Update historical statistics
+          this.totalEventsProcessed += result.Count;
+          this.cumulativeSum += result.Sum;
+
+          if (result.Min < this.historicalMin && result.Count > 0)
+            this.historicalMin = result.Min;
+
+          if (result.Max > this.historicalMax && result.Count > 0)
+            this.historicalMax = result.Max;
+
+          // Calculate cumulative average
+          double cumulativeAverage = this.totalEventsProcessed > 0
+              ? (double)this.cumulativeSum / this.totalEventsProcessed
+              : 0.0;
+
+          // Calculate events per second (based on window duration)
+          var windowDurationTicks = value.EndTime - value.StartTime;
+          double windowDurationSeconds = windowDurationTicks / (double)TimeSpan.TicksPerSecond;
+          double eventsPerSecond = windowDurationSeconds > 0
+              ? result.Count / windowDurationSeconds
+              : 0.0;
+
+          // Update running statistics for standard deviation (Welford's algorithm)
+          // This is a simplified version - for accurate std dev we'd need raw values
+          double delta = result.Average - this.runningMeanForStdDev;
+          this.runningMeanForStdDev += delta / (double)this.outputCount;
+          double delta2 = result.Average - this.runningMeanForStdDev;
+          this.runningM2ForStdDev += delta * delta2;
+
+          double variance = this.outputCount > 1 ? this.runningM2ForStdDev / (this.outputCount - 1) : 0;
+          double standardDeviation = Math.Sqrt(variance);
+
+          // Calculate range
+          long range = result.Count > 0 ? result.Max - result.Min : 0;
+
           // Format window time range
           var startTime = new DateTime(value.StartTime);
           var endTime = new DateTime(value.EndTime);
 
-          Console.WriteLine($"\n╔════════════════════════════════════════════════════════════╗");
+          Console.WriteLine($"\n╔════════════════════════════════════════════════════════════════════╗");
           Console.WriteLine($"║ [{this.partitionId}] Window #{this.outputCount}");
           Console.WriteLine($"║ Time: {startTime:HH:mm:ss.fff} - {endTime:HH:mm:ss.fff}");
-          Console.WriteLine($"╠════════════════════════════════════════════════════════════╣");
-          Console.WriteLine($"║ Type         : {result.AggregationType}");
-          Console.WriteLine($"║ Count        : {result.Count, 10:N0}");
-          Console.WriteLine($"║ Event Counter: {result.EventCounter, 10:N0}");
+          Console.WriteLine($"╠════════════════════════════════════════════════════════════════════╣");
+          Console.WriteLine($"║ === Current Window Statistics ===");
+          Console.WriteLine($"║ Type              : {result.AggregationType}");
+          Console.WriteLine($"║ Count             : {result.Count, 15:N0}");
+          Console.WriteLine($"║ Event Counter     : {result.EventCounter, 15:N0}");
 
           if (result.AggregationType != "SimpleStats")
           {
-            Console.WriteLine($"║ Sum          : {result.Sum, 10:N0}");
-            Console.WriteLine($"║ Average      : {result.Average, 10:N2}");
+            Console.WriteLine($"║ Sum               : {result.Sum, 15:N0}");
+            Console.WriteLine($"║ Average           : {result.Average, 15:N2}");
           }
 
           if (result.AggregationType == "MultiMetric")
           {
-            Console.WriteLine($"║ Minimum      : {result.Min, 10:N0}");
-            Console.WriteLine($"║ Maximum      : {result.Max, 10:N0}");
+            Console.WriteLine($"║ Minimum           : {result.Min, 15:N0}");
+            Console.WriteLine($"║ Maximum           : {result.Max, 15:N0}");
+            Console.WriteLine($"║ Range             : {range, 15:N0}");
           }
 
-          Console.WriteLine($"╚════════════════════════════════════════════════════════════╝");
+          Console.WriteLine($"║");
+          Console.WriteLine($"║ === Historical Statistics (All Windows) ===");
+          Console.WriteLine($"║ Total Windows     : {this.outputCount, 15:N0}");
+          Console.WriteLine($"║ Total Events      : {this.totalEventsProcessed, 15:N0}");
+          Console.WriteLine($"║ Cumulative Sum    : {this.cumulativeSum, 15:N0}");
+          Console.WriteLine($"║ Cumulative Avg    : {cumulativeAverage, 15:N2}");
+          Console.WriteLine($"║ Historical Min    : {(this.historicalMin == long.MaxValue ? 0 : this.historicalMin), 15:N0}");
+          Console.WriteLine($"║ Historical Max    : {(this.historicalMax == long.MinValue ? 0 : this.historicalMax), 15:N0}");
+          Console.WriteLine($"║ Events/Second     : {eventsPerSecond, 15:N2}");
+          Console.WriteLine($"║ Std Dev (Avg)     : {standardDeviation, 15:N4}");
+          Console.WriteLine($"║ Avg Events/Window : {(double)this.totalEventsProcessed / this.outputCount, 15:N2}");
+
+          Console.WriteLine($"╚════════════════════════════════════════════════════════════════════╝");
+
+          this.lastWindowEndTime = value.EndTime;
         }
       }
     }
