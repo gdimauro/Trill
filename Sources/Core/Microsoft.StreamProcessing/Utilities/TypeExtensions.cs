@@ -716,17 +716,17 @@ namespace Microsoft.StreamProcessing
             else if (type.HasSupportedParameterizedConstructor())
             {
                 var members = type.GetTypeInfo().GetProperties().Where(p => p.GetIndexParameters().Length == 0).ToList();
-                var serializableMembers = members.Where(p => !p.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o)).ToList();
                 
-                // For types like KeyValuePair<string, object>, we'll serialize what we can
-                // Even if the type has read-only properties, we'll attempt to serialize the non-unsupported members
-                // Note: Deserialization may not fully reconstruct the object, but it's better than failing entirely
-                
-                return serializableMembers;
+                // For types with parameterized constructors (KeyValuePair, Tuple, anonymous types),
+                // we MUST include all properties for proper reconstruction.
+                // However, if any property type is unsupported, the entire type should have been
+                // rejected earlier by IsUnsupported/ValidateTypeForSerializer.
+                return members.Select(o => new MyFieldInfo(o)).ToList();
             }
             else if (type.GetTypeInfo().IsDefined(typeof(DataContractAttribute)))
             {
                 // In DataContract context, return all fields and properties marked with DataMember
+                // Filter out unsupported types to allow partial serialization
                 var fields = type.GetAllFields().Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !m.FieldType.IsUnsupported()).Select(o => new MyFieldInfo(o));
                 var properties = type.GetAllProperties().Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !m.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o));
                 return fields.Concat(properties);
@@ -734,6 +734,7 @@ namespace Microsoft.StreamProcessing
             else
             {
                 // Otherwise, return all fields, as well as all autoproperties
+                // Filter out unsupported types to allow partial serialization
                 var fields = type.GetAllFields().Where(f => !f.FieldType.IsUnsupported()).Select(o => new MyFieldInfo(o));
                 var properties = type.GetAllProperties().Where(m => m.IsFieldOrAutoProp() && !m.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o));
                 return fields.Concat(properties);
