@@ -2,6 +2,7 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // Licensed under the MIT License
 // *********************************************************************
+using EventHubReceiver.Kql;
 using System;
 using System.Threading.Tasks;
 
@@ -41,9 +42,18 @@ namespace EventHubReceiver
         Console.WriteLine("     - Flexible, decoupled aggregation logic");
         Console.WriteLine("     - Runtime-configurable aggregations");
         Console.WriteLine();
-        Console.WriteLine("  4. Exit");
+        Console.WriteLine("  4. KQL Schema-Based Processing Mode");
+        Console.WriteLine("     - Define schemas using KQL syntax");
+        Console.WriteLine("     - Type-safe dynamic event processing");
+        Console.WriteLine("     - Full checkpointing support");
         Console.WriteLine();
-        Console.Write("Enter your choice (1-4) [default: 1]: ");
+        Console.WriteLine("  5. KQL Tests & Validation");
+        Console.WriteLine("     - Run comprehensive test suite");
+        Console.WriteLine("     - Validate schema parsing and processing");
+        Console.WriteLine();
+        Console.WriteLine("  6. Exit");
+        Console.WriteLine();
+        Console.Write("Enter your choice (1-6) [default: 1]: ");
 
         var choice = Console.ReadLine()?.Trim();
 
@@ -79,6 +89,26 @@ namespace EventHubReceiver
               break;
 
             case "4":
+              Console.WriteLine();
+              Console.WriteLine("Starting KQL Schema-Based Processing mode...");
+              Console.WriteLine();
+              KqlProcessorSample.Run();
+              Console.WriteLine();
+              Console.WriteLine("Press any key to return to menu...");
+              Console.ReadKey();
+              break;
+
+            case "5":
+              Console.WriteLine();
+              Console.WriteLine("Running KQL Tests...");
+              Console.WriteLine();
+              KqlTests.RunAllTests();
+              Console.WriteLine();
+              Console.WriteLine("Press any key to return to menu...");
+              Console.ReadKey();
+              break;
+
+            case "6":
               exit = true;
               Console.WriteLine();
               Console.WriteLine("Exiting application. Goodbye!");
