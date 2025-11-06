@@ -727,18 +727,59 @@ namespace Microsoft.StreamProcessing
             {
                 // In DataContract context, return all fields and properties marked with DataMember
                 // Filter out unsupported types to allow partial serialization
-                var fields = type.GetAllFields().Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !m.FieldType.IsUnsupported()).Select(o => new MyFieldInfo(o));
-                var properties = type.GetAllProperties().Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !m.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o));
+                var fields = type.GetAllFields()
+                    .Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !IsUnsupportedForSerialization(m.FieldType))
+                    .Select(o => new MyFieldInfo(o));
+                var properties = type.GetAllProperties()
+                    .Where(m => m.IsDefined(typeof(DataMemberAttribute)) && !IsUnsupportedForSerialization(m.PropertyType))
+                    .Select(o => new MyFieldInfo(o));
                 return fields.Concat(properties);
             }
             else
             {
                 // Otherwise, return all fields, as well as all autoproperties
                 // Filter out unsupported types to allow partial serialization
-                var fields = type.GetAllFields().Where(f => !f.FieldType.IsUnsupported()).Select(o => new MyFieldInfo(o));
-                var properties = type.GetAllProperties().Where(m => m.IsFieldOrAutoProp() && !m.PropertyType.IsUnsupported()).Select(o => new MyFieldInfo(o));
+                var fields = type.GetAllFields()
+                    .Where(f => !IsUnsupportedForSerialization(f.FieldType))
+                    .Select(o => new MyFieldInfo(o));
+                var properties = type.GetAllProperties()
+                    .Where(m => m.IsFieldOrAutoProp() && !IsUnsupportedForSerialization(m.PropertyType))
+                    .Select(o => new MyFieldInfo(o));
                 return fields.Concat(properties);
             }
+        }
+
+        /// <summary>
+        /// Checks if a type or its collection element types are unsupported for serialization.
+        /// This is more comprehensive than IsUnsupported() as it also checks collection element types.
+        /// </summary>
+        private static bool IsUnsupportedForSerialization(Type type)
+        {
+            // Direct check
+            if (type.IsUnsupported()) return true;
+
+            // Check generic types (Dictionary<K,V>, List<T>, etc.)
+            if (type.GetTypeInfo().IsGenericType)
+            {
+                var genericArgs = type.GetGenericArguments();
+                
+                // For Dictionary<K,V>, List<T>, etc., check if any generic argument is unsupported
+                foreach (var arg in genericArgs)
+                {
+                    if (arg == typeof(object)) return true; // Specifically reject object
+                    if (arg.IsUnsupported()) return true;
+                }
+            }
+
+            // Check array element type
+            if (type.IsArray)
+            {
+                var elementType = type.GetElementType();
+                if (elementType == typeof(object)) return true;
+                if (elementType.IsUnsupported()) return true;
+            }
+
+            return false;
         }
     }
 }
