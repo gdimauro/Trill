@@ -611,7 +611,7 @@ namespace EventHubReceiver
 
         DeleteOlderCheckpoints(checkpointFileName);
         this.checkpointStopWatch.Restart();
-        Console.WriteLine($"Checkpoint saved successfully");
+        Console.WriteLine($"Checkpoint saved successfully to {Path.GetFullPath(tempPath)}");
       }
       catch (Exception ex)
       {

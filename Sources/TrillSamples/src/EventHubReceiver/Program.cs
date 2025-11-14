@@ -51,9 +51,14 @@ namespace EventHubReceiver
         Console.WriteLine("     - Run comprehensive test suite");
         Console.WriteLine("     - Validate schema parsing and processing");
         Console.WriteLine();
-        Console.WriteLine("  6. Exit");
+        Console.WriteLine("  6. Strongly-Typed Records & Classes");
+        Console.WriteLine("     - C# records with nested types");
+        Console.WriteLine("     - Inheritance hierarchies");
+        Console.WriteLine("     - Complex composition patterns");
         Console.WriteLine();
-        Console.Write("Enter your choice (1-6) [default: 1]: ");
+        Console.WriteLine("  7. Exit");
+        Console.WriteLine();
+        Console.Write("Enter your choice (1-7) [default: 1]: ");
 
         var choice = Console.ReadLine()?.Trim();
 
@@ -102,13 +107,23 @@ namespace EventHubReceiver
               Console.WriteLine();
               Console.WriteLine("Running KQL Tests...");
               Console.WriteLine();
-              KqlTests.RunAllTests();
+              KqlTests.RunAll();
               Console.WriteLine();
               Console.WriteLine("Press any key to return to menu...");
               Console.ReadKey();
               break;
 
             case "6":
+              Console.WriteLine();
+              Console.WriteLine("Starting Strongly-Typed Records & Classes sample...");
+              Console.WriteLine();
+              TypedRecordSample.Run();
+              Console.WriteLine();
+              Console.WriteLine("Press any key to return to menu...");
+              Console.ReadKey();
+              break;
+
+            case "7":
               exit = true;
               Console.WriteLine();
               Console.WriteLine("Exiting application. Goodbye!");

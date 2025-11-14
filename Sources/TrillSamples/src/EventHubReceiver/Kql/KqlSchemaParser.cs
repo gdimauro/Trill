@@ -24,6 +24,7 @@ namespace EventHubReceiver.Kql
             { "dynamic", KqlDataType.Dynamic },
             { "guid", KqlDataType.Guid },
             { "uniqueid", KqlDataType.Guid },
+            { "uuid", KqlDataType.Guid },
             { "int", KqlDataType.Int },
             { "long", KqlDataType.Long },
             { "real", KqlDataType.Real },
