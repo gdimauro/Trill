@@ -92,6 +92,13 @@ namespace Microsoft.StreamProcessing
                             // We have found a row that corresponds to punctuation
                             OnPunctuation(col_vsync[i]);
 
+                            // Ensure batch is available after OnPunctuation call
+                            if (this.batch == null)
+                            {
+                                this.pool.Get(out this.batch);
+                                this.batch.Allocate();
+                            }
+
                             int c = this.batch.Count;
                             this.batch.vsync.col[c] = col_vsync[i];
                             this.batch.vother.col[c] = StreamEvent.PunctuationOtherTime;
@@ -155,6 +162,13 @@ namespace Microsoft.StreamProcessing
             {
                 if (this.currentState != null)
                 {
+                    // Ensure batch is available before accessing
+                    if (this.batch == null)
+                    {
+                        this.pool.Get(out this.batch);
+                        this.batch.Allocate();
+                    }
+
                     int c = this.batch.Count;
                     this.batch.vsync.col[c] = this.currentState.timestamp;
                     this.batch.vother.col[c] = this.currentState.timestamp + this.hop;

@@ -257,5 +257,8 @@ namespace EventHubReceiver
     {
         public ulong Count { get; init; }
         public double Average { get; init; }
+        public double Minimum { get; init; }
+        public double Maximum { get; init; }
+        public DateTime Timestamp { get; init; }
     }
 }

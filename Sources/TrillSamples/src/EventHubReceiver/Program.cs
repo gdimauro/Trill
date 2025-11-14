@@ -56,9 +56,14 @@ namespace EventHubReceiver
         Console.WriteLine("     - Inheritance hierarchies");
         Console.WriteLine("     - Complex composition patterns");
         Console.WriteLine();
-        Console.WriteLine("  7. Exit");
+        Console.WriteLine("  7. Advanced Typed Records - Complex CEP");
+        Console.WriteLine("     - Stream joins and correlations");
+        Console.WriteLine("     - Pattern detection & temporal queries");
+        Console.WriteLine("     - Multi-stream event processing");
         Console.WriteLine();
-        Console.Write("Enter your choice (1-7) [default: 1]: ");
+        Console.WriteLine("  8. Exit");
+        Console.WriteLine();
+        Console.Write("Enter your choice (1-8) [default: 1]: ");
 
         var choice = Console.ReadLine()?.Trim();
 
@@ -124,6 +129,16 @@ namespace EventHubReceiver
               break;
 
             case "7":
+              Console.WriteLine();
+              Console.WriteLine("Starting Advanced Typed Records - Complex CEP sample...");
+              Console.WriteLine();
+              TypedRecordAdvancedSample.Run();
+              Console.WriteLine();
+              Console.WriteLine("Press any key to return to menu...");
+              Console.ReadKey();
+              break;
+
+            case "8":
               exit = true;
               Console.WriteLine();
               Console.WriteLine("Exiting application. Goodbye!");
