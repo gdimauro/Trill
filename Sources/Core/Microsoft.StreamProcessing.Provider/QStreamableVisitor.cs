@@ -54,18 +54,20 @@ namespace Microsoft.StreamProcessing.Provider
             if (method == SetDurationMethod) return VisitSetDurationCall(node.Arguments[0], (long)((ConstantExpression)node.Arguments[1]).Value);
             if (method == StitchMethod) return VisitStitchCall(node.Arguments[0]);
 
-            if (method == GroupByMethod) return VisitGroupByCall(node.Arguments[0], (LambdaExpression)node.Arguments[1], (LambdaExpression)node.Arguments[2]);
-            if (method == SelectMethod) return VisitSelectCall(node.Arguments[0], (LambdaExpression)node.Arguments[1], false);
-            if (method == SelectManyMethod) return VisitSelectManyCall(node.Arguments[0], (LambdaExpression)node.Arguments[1], false);
-            if (method == WhereMethod) return VisitWhereCall(node.Arguments[0], (LambdaExpression)node.Arguments[1]);
+            if (method == GroupByMethod) return VisitGroupByCall(node.Arguments[0], (LambdaExpression)StripQuote(node.Arguments[1]), (LambdaExpression)StripQuote(node.Arguments[2]));
+            if (method == SelectMethod) return VisitSelectCall(node.Arguments[0], (LambdaExpression)StripQuote(node.Arguments[1]), false);
+            if (method == SelectManyMethod) return VisitSelectManyCall(node.Arguments[0], (LambdaExpression)StripQuote(node.Arguments[1]), false);
+            if (method == WhereMethod) return VisitWhereCall(node.Arguments[0], (LambdaExpression)StripQuote(node.Arguments[1]));
 
-            if (method == ClipDurationBinaryMethod) return VisitClipEventDurationCall(node.Arguments[0], node.Arguments[1], (LambdaExpression)node.Arguments[2], (LambdaExpression)node.Arguments[3]);
-            if (method == JoinMethod) return VisitJoinCall(node.Arguments[0], node.Arguments[1], (LambdaExpression)node.Arguments[2], (LambdaExpression)node.Arguments[3], (LambdaExpression)node.Arguments[4]);
+            if (method == ClipDurationBinaryMethod) return VisitClipEventDurationCall(node.Arguments[0], node.Arguments[1], (LambdaExpression)StripQuote(node.Arguments[2]), (LambdaExpression)StripQuote(node.Arguments[3]));
+            if (method == JoinMethod) return VisitJoinCall(node.Arguments[0], node.Arguments[1], (LambdaExpression)StripQuote(node.Arguments[2]), (LambdaExpression)StripQuote(node.Arguments[3]), (LambdaExpression)StripQuote(node.Arguments[4]));
             if (method == UnionMethod) return VisitUnionCall(node.Arguments[0], node.Arguments[1]);
-            if (method == WhereNotExistsMethod) return VisitWhereNotExistsCall(node.Arguments[0], node.Arguments[1], (LambdaExpression)node.Arguments[2], (LambdaExpression)node.Arguments[3]);
+            if (method == WhereNotExistsMethod) return VisitWhereNotExistsCall(node.Arguments[0], node.Arguments[1], (LambdaExpression)StripQuote(node.Arguments[2]), (LambdaExpression)StripQuote(node.Arguments[3]));
 
             return VisitNonStreamingMethodCall(node);
         }
+
+        private static Expression StripQuote(Expression e) => e.NodeType == ExpressionType.Quote ? ((UnaryExpression)e).Operand : e;
 
         /// <summary>
         /// An overrideable method for handling any method that is not part of the IQStreamable API.

@@ -3,7 +3,6 @@
 // Licensed under the MIT License
 // *********************************************************************
 using System;
-using System.Collections.Generic;
 using System.Linq.Expressions;
 
 namespace Microsoft.StreamProcessing.Provider
@@ -14,24 +13,40 @@ namespace Microsoft.StreamProcessing.Provider
     public static partial class QStreamableStatic
     {
         /// <summary>
-        /// Groups the elements of a stream according to a specified key selector function.
+        /// Groups elements and applies a result selector to each grouped window.
         /// </summary>
-        /// <typeparam name="TSource">The type of the elements in the source stream.</typeparam>
-        /// <typeparam name="TKey">The type of the grouping key computed for each element in the source stream returned by <paramref name="keySelector"/>.</typeparam>
-        /// <typeparam name="TElement">The type of the grouped elements contained in each window returned by <paramref name="elementSelector"/>.</typeparam>
-        /// <typeparam name="TResult">The type of the value returned by the <paramref name="resultSelector"/>.</typeparam>
-        /// <param name="source">A stream whose elements are to be grouped.</param>
-        /// <param name="keySelector">A function to extract the key for each element.</param>
-        /// <param name="elementSelector">A function to map each source element to an element in the group.</param>
-        /// <param name="resultSelector">A function to create a result value from each group.</param>
-        /// <returns>A stream of windowed groups, each of which corresponds to a unique key value, containing all projected elements that share that same key value.</returns>
-        public static IQStreamable<IGroupedWindow<TKey, TElement>> GroupBy<TSource, TKey, TElement, TResult>(
+        /// <typeparam name="TSource">Source element type.</typeparam>
+        /// <typeparam name="TKey">Grouping key type.</typeparam>
+        /// <typeparam name="TElement">Projected element type in group window.</typeparam>
+        /// <typeparam name="TResult">Result projection type.</typeparam>
+        /// <param name="source">Source stream.</param>
+        /// <param name="keySelector">Key selector expression.</param>
+        /// <param name="elementSelector">Element selector expression.</param>
+        /// <param name="resultSelector">Result selector applied to each group.</param>
+        /// <returns>Projected stream of results.</returns>
+        public static IQStreamable<TResult> GroupApply<TSource, TKey, TElement, TResult>(
             this IQStreamable<TSource> source,
             Expression<Func<TSource, TKey>> keySelector,
             Expression<Func<TSource, TElement>> elementSelector,
             Expression<Func<TKey, IWindow<TElement>, TResult>> resultSelector)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (keySelector == null) throw new ArgumentNullException(nameof(keySelector));
+            if (elementSelector == null) throw new ArgumentNullException(nameof(elementSelector));
+            if (resultSelector == null) throw new ArgumentNullException(nameof(resultSelector));
 
-            // => source.GroupBy(keySelector, elementSelector).Select(g => resultSelector(g.Key, g.Window));
-            => throw new NotImplementedException();
+            // Use the GroupBy from Unary.cs
+            var grouped = source.GroupBy(keySelector, elementSelector);
+
+            // Build projection: g => resultSelector(g.Key, g.Window)
+            var gParam = Expression.Parameter(typeof(IGroupedWindow<TKey, TElement>), "g");
+            var body = Expression.Invoke(resultSelector,
+                Expression.Property(gParam, nameof(IGroupedWindow<TKey, TElement>.Key)),
+                Expression.Property(gParam, nameof(IGroupedWindow<TKey, TElement>.Window)));
+            var projection = Expression.Lambda<Func<IGroupedWindow<TKey, TElement>, TResult>>(body, gParam);
+            
+            // Use the Select from Unary.cs
+            return grouped.Select(projection);
+        }
     }
 }
