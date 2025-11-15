@@ -7926,4 +7926,4 @@ namespace Microsoft.StreamProcessing
         }
     }
 
-}
+    }
